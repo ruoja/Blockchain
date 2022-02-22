@@ -1,28 +1,29 @@
 package com.blockchain;
 
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HashCreator {
 
-    public String createHash(String input)
-            throws NoSuchAlgorithmException {
-        String hashtext = null;
-        MessageDigest md = MessageDigest.getInstance("SHA3-256");
-        byte[] messageDigest =
-                md.digest(input.getBytes(StandardCharsets.UTF_8));
-        hashtext = convertToHex(messageDigest);
-        return hashtext;
-    }
-
-    private String convertToHex(final byte[] messageDigest) {
-        BigInteger bigint = new BigInteger(1, messageDigest);
-        String hexText = bigint.toString(16);
-        while (hexText.length() < 32) {
-            hexText = "0".concat(hexText);
+    public String createHash(String input) {
+        Logger logger = (Logger.getLogger(this.getClass().getName()));
+        MessageDigest md;
+        byte[] bytes = null;
+        try {
+            md = MessageDigest.getInstance("SHA3-256");
+            bytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
-        return hexText;
+        StringBuilder buffer = new StringBuilder();
+        if (bytes != null) {
+            for (byte b : bytes) {
+                buffer.append(String.format("%02x", b));
+            }
+        }
+        return buffer.toString();
     }
 }
