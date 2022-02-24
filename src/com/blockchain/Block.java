@@ -16,25 +16,6 @@ public class Block {
         this.nonce = 0;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public String getPreviousHash() {
-        return previousHash;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public int getNonce() {
-        return nonce;
-    }
     //For testing purpose only
     public void setData(String data) {
         this.data = data;
@@ -42,9 +23,9 @@ public class Block {
 
     public String mine(int difficulty) {
         String prefix = new String(new char[difficulty]).replace('\0', '0');
-        while(!hash.substring(0, difficulty).equals(prefix)) {
-            nonce++;
-            hash = calculateHash();
+        while(!this.hash.substring(0, difficulty).equals(prefix)) {
+            this.nonce++;
+            this.hash = calculateHash();
         }
         return hash;
     }
