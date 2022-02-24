@@ -33,12 +33,31 @@ public class Blockchain {
         this.chain.add(newBlock);
     }
 
-    public static void main(String[] args) {
-        Blockchain Blockchain = new Blockchain();
-        Block newBlock = new Block("I'm a new block!", null);
-        Blockchain.chain.add(newBlock);
-        System.out.println(newBlock.data);
-        System.out.println(newBlock.hash);
-        System.out.println(newBlock.timestamp);
+    public boolean isValid() {
+        if (this.chain.size() == 1) {
+            return true;
+        }
+        for (int i = 1; i < this.chain.size(); i++) {
+            Block current = this.chain.get(i);
+            Block previous = this.chain.get(i - 1);
+            if (!current.hash.equals(current.calculateHash()) || !previous.hash.equals(current.previousHash)) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    public static void main(String[] args) {
+        Blockchain blockchain = Blockchain.create(2);
+        blockchain.addBlock("Jorma", "Erkki", "10");
+        blockchain.addBlock("Keijo", "Seppo", "200");
+        System.out.println(blockchain.isValid());
+        System.out.println(blockchain.chain.get(1));
+        blockchain.chain.get(1).setData("Tampering the data");
+        System.out.println(blockchain.isValid());
+        for (Block block : blockchain.chain) {
+            System.out.println(block.toString());
+        }
+    }
+
 }

@@ -38,4 +38,12 @@ public class Block {
                 + data;
         return creator.createHash(dataToHash);
     }
+
+    @Override
+    public String toString() {
+        return "Data: " + data
+                + "Timestamp: " + timestamp
+                + "Hash: " + hash
+                + "Previous hash: " + previousHash;
+    }
 }
