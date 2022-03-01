@@ -5,22 +5,18 @@ import java.util.ArrayList;
 public class Blockchain {
 
     public Block genesisBlock;
-    public int nonce;
+    public int difficulty;
     public ArrayList<Block> chain;
 
-    public Blockchain() {
-        this.chain = new ArrayList<>();
-    }
-
-    public Blockchain(Block genesisBlock, int nonce) {
+    public Blockchain(Block genesisBlock, int difficulty) {
         this.chain = new ArrayList<>();
         this.genesisBlock = genesisBlock;
-        this.nonce = nonce;
+        this.difficulty = difficulty;
     }
 
-    public static Blockchain create(int nonce) {
+    public static Blockchain create(int difficulty) {
         Block genesisBlock = new Block(null, null);
-        Blockchain newChain = new Blockchain(genesisBlock, nonce);
+        Blockchain newChain = new Blockchain(genesisBlock, difficulty);
         newChain.chain.add(genesisBlock);
         return newChain;
     }
@@ -29,7 +25,7 @@ public class Blockchain {
         String blockData = from + ":" + to + ":" + amount;
         Block lastBlock = this.chain.get(this.chain.size() - 1);
         Block newBlock = new Block(blockData, lastBlock.hash);
-        newBlock.mine(this.nonce);
+        newBlock.mine(this.difficulty);
         this.chain.add(newBlock);
     }
 
@@ -49,11 +45,10 @@ public class Blockchain {
 
     public static void main(String[] args) {
         Blockchain blockchain = Blockchain.create(2);
-        blockchain.addBlock("Jorma", "Erkki", "10");
         blockchain.addBlock("Keijo", "Seppo", "200");
+        blockchain.addBlock("Jorma", "Kalevi", "10");
         System.out.println(blockchain.isValid());
-        System.out.println(blockchain.chain.get(1));
-        blockchain.chain.get(1).setData("Tampering the data");
+        blockchain.chain.get(1).data = "Tampering with data";
         System.out.println(blockchain.isValid());
         for (Block block : blockchain.chain) {
             System.out.println(block.toString());
