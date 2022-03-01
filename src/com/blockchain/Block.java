@@ -9,9 +9,11 @@ import java.util.logging.Logger;
 
 public class Block {
 
-    public String data, hash, previousHash;
-    public Date timestamp;
-    public int nonce;
+    private final String data;
+    private String hash;
+    private final String previousHash;
+    private final Date timestamp;
+    private int nonce;
 
     public Block(String data, String previousHash) {
         this.data = data;
@@ -19,6 +21,14 @@ public class Block {
         this.nonce = 0;
         this.timestamp = new Date();
         this.hash = calculateHash();
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public String getPreviousHash() {
+        return previousHash;
     }
 
     public void mine(int difficulty) {
