@@ -19,6 +19,10 @@ public class Blockchain {
         return newChain;
     }
 
+    public ArrayList<Block> getChain() {
+        return chain;
+    }
+
     public void addBlock(String from, String to, String amount) {
         String blockData = from + ":" + to + ":" + amount;
         Block lastBlock = this.chain.get(this.chain.size() - 1);
@@ -39,15 +43,5 @@ public class Blockchain {
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        Blockchain blockchain = Blockchain.create(2);
-        blockchain.addBlock("Keijo", "Seppo", "200");
-        blockchain.addBlock("Jorma", "Kalevi", "10");
-        System.out.println(blockchain.isValid());
-        for (Block block : blockchain.chain) {
-            System.out.println(block.toString());
-        }
     }
 }
